@@ -32,26 +32,32 @@ runs:
 
     - name: Install dependencies
       run: npm --production ci
+      shell: bash
 
     - name: Install firebase-tools
       run: npm i -g firebase-tools
+      shell: bash
 
     - name: Package application
       run: npm run build:${{ inputs.environment }}
+      shell: bash
       env:
         RELEASE_VERSION: ${{ inputs.release_version }}
 
     - name: Change firebase project to use proper environment
       run: firebase use ${{ inputs.environment }}
+      shell: bash
       env:
         FIREBASE_TOKEN: ${{ inputs.firebase_token }}
 
     - name: Firebase apply targets
       run: firebase target:apply hosting ${{ inputs.environment }} ${{ inputs.firebase_project }}
+      shell: bash
       env:
         FIREBASE_TOKEN: ${{ inputs.firebase_token }}
 
     - name: Deploy to Firebase
       run: firebase deploy --only hosting:${{ inputs.environment }}
+      shell: bash
       env:
         FIREBASE_TOKEN: ${{ inputs.firebase_token }}
