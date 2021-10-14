@@ -1,5 +1,10 @@
 # Allset deploy action for firebase hosted apps
 
+## Prerequisites
+1. Your project needs to define a `build:{environment}` script for each environment supported. Example: `build:edge`
+2. A Firebase project alias should be present for each environment.
+3. The Firebase hosting project should already be created.
+
 ## Usage
 Adding the following to your workflow will build and deploy your web app to a given Firebase project.
 
