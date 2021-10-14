@@ -31,7 +31,7 @@ runs:
         cache: 'npm'
 
     - name: Install dependencies
-      run: npm --production ci
+      run: npm ci
       shell: bash
 
     - name: Install firebase-tools
