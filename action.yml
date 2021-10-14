@@ -1,11 +1,12 @@
-name: "Deploy Allset Firebase Hosting"
-description: "Builds and deploys an allset web app to firebase hosting."
+name: "Deploy and Instrument Allset Hosted App"
+description: "Builds and deploys an Allset web app to firebase hosting, and adds instrumentation like Sentry Releases."
 
 inputs:
   environment:
-    description: "The environment name being deployed (edge, staging, production)"
+    description: "Set the environment for this release. E.g. 'edge', 'staging', or 'production'."
     required: true
-  release_version: "The version string to associate with this release"
+  release_version:
+    description: "The version string to associate with this release"
     required: true
 
   firebase_token:
