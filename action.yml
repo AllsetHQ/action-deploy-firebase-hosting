@@ -1,0 +1,56 @@
+name: "Deploy Allset Firebase Hosting"
+description: "Builds and deploys an allset web app to firebase hosting."
+
+inputs:
+  environment:
+    description: "The environment name being deployed (edge, staging, production)"
+    required: true
+  release_version: "The version string to associate with this release"
+    required: true
+
+  firebase_token:
+    description: "The CI Token used to interact with Firebase"
+    required: true
+  firebase_project:
+    description: "The name of the Firebase hosting project being deployed to"
+    required: true
+
+  node_version:
+    description: "The version of node to use for the build"
+    required: false
+    default: "16.5.0"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install NodeJS for Github Actions
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ inputs.node_version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm --production ci
+
+    - name: Install firebase-tools
+      run: npm i -g firebase-tools
+
+    - name: Package application
+      run: npm run build:${{ inputs.environment }}
+      env:
+        RELEASE_VERSION: ${{ inputs.release_version }}
+
+    - name: Change firebase project to use proper environment
+      run: firebase use ${{ inputs.environment }}
+      env:
+        FIREBASE_TOKEN: ${{ inputs.firebase_token }}
+
+    - name: Firebase apply targets
+      run: firebase target:apply hosting ${{ inputs.environment }} ${{ inputs.firebase_project }}
+      env:
+        FIREBASE_TOKEN: ${{ inputs.firebase_token }}
+
+    - name: Deploy to Firebase
+      run: firebase deploy --only hosting:${{ inputs.environment }}
+      env:
+        FIREBASE_TOKEN: ${{ inputs.firebase_token }}
