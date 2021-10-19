@@ -31,7 +31,7 @@ runs:
         cache: 'npm'
 
     - name: Authenticate with Github Packages
-      run: npm set '//npm.pkg.github.com/:_authToken' ${{ secrets.PACKAGE_TOKEN }}
+      run: npm set '//npm.pkg.github.com/:_authToken' ${{ inputs.package_token }}
       shell: bash
 
     - name: Install dependencies
