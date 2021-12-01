@@ -16,11 +16,6 @@ inputs:
     description: "The name of the Firebase hosting project being deployed to"
     required: true
 
-  node_version:
-    description: "The version of node to use for the build"
-    required: false
-    default: "16.13.0"
-
   package_token:
     description: "The Github packages token to use for private NPM Repos"
     required: true
@@ -31,7 +26,7 @@ runs:
     - name: Install NodeJS for Github Actions
       uses: actions/setup-node@v2
       with:
-        node-version: ${{ inputs.node_version }}
+        node-version-file: '.nvmrc'
         cache: 'npm'
 
     - name: Authenticate with Github Packages
