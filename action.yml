@@ -9,9 +9,10 @@ inputs:
     description: "The version string to associate with this release"
     required: true
 
-  firebase_token:
-    description: "The CI Token used to interact with Firebase"
+  service_account_key:
+    description: "GCP Service Account credentials used to authenticate for deploys"
     required: true
+
   firebase_project:
     description: "The name of the Firebase hosting project being deployed to"
     required: true
@@ -51,16 +52,16 @@ runs:
       run: firebase use ${{ inputs.environment }}
       shell: bash
       env:
-        FIREBASE_TOKEN: ${{ inputs.firebase_token }}
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ inputs.service_account_key }}
 
     - name: Firebase apply targets
       run: firebase target:apply hosting ${{ inputs.environment }} ${{ inputs.firebase_project }}
       shell: bash
       env:
-        FIREBASE_TOKEN: ${{ inputs.firebase_token }}
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ inputs.service_account_key }}
 
     - name: Deploy to Firebase
       run: firebase deploy --only hosting:${{ inputs.environment }}
       shell: bash
       env:
-        FIREBASE_TOKEN: ${{ inputs.firebase_token }}
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ inputs.service_account_key }}
