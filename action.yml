@@ -48,6 +48,12 @@ runs:
       env:
         RELEASE_VERSION: ${{ inputs.release_version }}
 
+    - name: Log into firebase
+      run: firebase login
+      shell: bash
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ inputs.service_account_key }}
+
     - name: Change firebase project to use proper environment
       run: firebase use ${{ inputs.environment }}
       shell: bash
