@@ -49,7 +49,7 @@ runs:
         RELEASE_VERSION: ${{ inputs.release_version }}
 
     - name: Log into firebase
-      run: firebase login
+      run: firebase login:ci
       shell: bash
       env:
         GOOGLE_APPLICATION_CREDENTIALS: ${{ inputs.service_account_key }}
