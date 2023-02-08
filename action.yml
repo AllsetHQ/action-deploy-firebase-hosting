@@ -54,26 +54,14 @@ runs:
       with:
         credentials_json: ${{ inputs.service_account_json }}
 
-    - name: Log into firebase
-      run: firebase login:ci --interactive
-      shell: bash
-      env:
-        GOOGLE_APPLICATION_CREDENTIALS: ${{ inputs.service_account_key }}
-
     - name: Change firebase project to use proper environment
       run: firebase use ${{ inputs.environment }}
       shell: bash
-      env:
-        GOOGLE_APPLICATION_CREDENTIALS: ${{ inputs.service_account_key }}
 
     - name: Firebase apply targets
       run: firebase target:apply hosting ${{ inputs.environment }} ${{ inputs.firebase_project }}
       shell: bash
-      env:
-        GOOGLE_APPLICATION_CREDENTIALS: ${{ inputs.service_account_key }}
 
     - name: Deploy to Firebase
       run: firebase deploy --only hosting:${{ inputs.environment }}
       shell: bash
-      env:
-        GOOGLE_APPLICATION_CREDENTIALS: ${{ inputs.service_account_key }}
