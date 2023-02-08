@@ -9,8 +9,8 @@ inputs:
     description: "The version string to associate with this release"
     required: true
 
-  service_account_key:
-    description: "GCP Service Account credentials used to authenticate for deploys"
+  service_account_json:
+    description: "GCP Service Account credentials json used to authenticate for deploys"
     required: true
 
   firebase_project:
@@ -47,6 +47,12 @@ runs:
       shell: bash
       env:
         RELEASE_VERSION: ${{ inputs.release_version }}
+
+    - id: auth
+      name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@main
+      with:
+        credentials_json: ${{ inputs.service_account_json }}
 
     - name: Log into firebase
       run: firebase login:ci --interactive
